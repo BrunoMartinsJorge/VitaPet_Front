@@ -1,0 +1,149 @@
+.sidebar {
+  background-color: #38898c;
+  width: 80px;
+  height: 100vh;
+  color: #333;
+  display: grid;
+  overflow: hidden;
+  grid-template-rows: 1fr 5fr 0.75fr;
+  transition: 0.4s ease-in-out;
+}
+
+.sidebar.sidebar-ativa {
+  width: 250px;
+}
+
+.sidebar .cabecalho-sidebar {
+  padding: 1em 0.25em;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  gap: 1em;
+  background-color: #0c6369;
+}
+
+.sidebar .cabecalho-sidebar h2 {
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.4s ease;
+}
+
+.logo {
+  background-size: contain;
+  width: 70px;
+  height: 70px;
+  margin: 0;
+  border-radius: 50%;
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 0.5em;
+}
+
+.logo .logo-img {
+  background: url(../../../../public/logo.png) no-repeat center;
+  background-size: contain;
+  width: 70px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sidebar .links-sidebar ul {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  grid-gap: 1em;
+  padding: 1em 0;
+}
+
+.sidebar .links-sidebar ul .link {
+  position: relative;
+  width: 100%;
+  display: flex;
+  transition: 0.4s;
+}
+
+.sidebar.sidebar-ativa .cabecalho-sidebar h2 {
+  color: #fff;
+  visibility: visible;
+  opacity: 1;
+}
+
+.sidebar.sidebar-ativa .links-sidebar ul .link {
+  align-items: start;
+  justify-content: start;
+}
+
+.sidebar .links-sidebar ul .link a {
+  color: #fff;
+  text-decoration: none;
+  position: relative;
+  display: flex;
+  grid-gap: 1em;
+  padding: 1.5em;
+  width: 100%;
+  height: 100%;
+}
+
+.sidebar .links-sidebar ul .link a i {
+  font-size: 1.5rem;
+  transition: 0.4s;
+}
+
+.sidebar .links-sidebar ul .link a span {
+  display: none;
+  transition: 0.4s;
+}
+
+.sidebar.sidebar-ativa .links-sidebar ul .link a span {
+  display: flex;
+}
+
+.link-ativo {
+  background-color: #ffffff58;
+}
+
+.sidebar .footer-sidebar,
+.sidebar.sidebar-ativa .footer-sidebar {
+  color: #fff;
+  border-top: 2px solid #fff;
+  display: flex;
+  align-items: center;
+}
+
+.sidebar .footer-sidebar .img-conta {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  background: url("https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcRcJt34r7XdZiQk7KHTW0MdA8ALNv46J1u30bml7sbf8W7hlF-g3Vndi_X-_kRYBvYToH2a6huHmN67eKj-d_SW8Q")
+    center center no-repeat;
+  background-size: cover;
+  border-radius: 50%;
+  margin: 0 0.85em;
+  border: 2px solid #fff;
+}
+
+.sidebar .footer-sidebar .info-conta{
+  display: none;
+}
+
+.sidebar.sidebar-ativa .footer-sidebar .info-conta{
+  display: flex;
+  flex-direction: column;
+  gap: 0.25em;
+}
+
+.sidebar .footer-sidebar .info-conta .nome-usuario{
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.sidebar .footer-sidebar .info-conta .cargo-usuario{
+  color: #cdcdcd;
+  font-size: 12px;
+}

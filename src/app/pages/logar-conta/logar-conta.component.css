@@ -1,0 +1,106 @@
+main {
+  width: 100%;
+  height: 100%;
+  background: url("https://t3.ftcdn.net/jpg/02/98/20/18/360_F_298201821_e90YxH0f6FBwOvcKhynlwF8sNYxlCMsg.jpg")
+    center center no-repeat;
+  background-size: cover;
+  display: grid;
+  place-items: center;
+  grid-template-rows: 1fr;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 1em;
+}
+
+section.logo-imagem {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  flex-direction: column;
+  gap: 2em;
+  padding: 6em 0;
+}
+
+section.logo-imagem .logo {
+  max-width: 300px;
+  max-height: 300px;
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  padding: 2.5em;
+  border-radius: 50%;
+}
+
+section.logo-imagem .logo::before {
+  content: "";
+  width: 100%;
+  height: 100%;
+  display: flex;
+  background: url(../../../../public/logo.png) center center no-repeat;
+  background-size: contain;
+}
+
+section.logo-imagem p {
+  color: #fff;
+  font-size: 1.5em;
+  text-align: center;
+  font-weight: 700;
+  font-family: serif;
+}
+
+section.form-login {
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  min-width: 350px;
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  display: grid;
+  place-items: center;
+  grid-template-rows: 1fr 3fr;
+  grid-template-columns: 1fr;
+  gap: 2em;
+  padding: 2em;
+}
+
+section.form-login .texto-recepcao {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 3em;
+}
+
+section.form-login .texto-recepcao h1 {
+  color: #07567d;
+  font-size: 2.8em;
+  font-weight: 700;
+  font-family: serif;
+}
+
+section.form-login .texto-recepcao p {
+  color: #606060;
+  width: 90%;
+  font-size: 1em;
+  font-weight: 500;
+  text-align: center;
+}
+
+section.form-login form {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  gap: 2em;
+  padding: 3.5em 0;
+  width: 100%;
+  height: 100%;
+}
+
+section.form-login form .esqueceu-senha {
+  color: #808080;
+  font-size: 0.9em;
+  text-align: end;
+  cursor: pointer;
+  transition: color 0.3s ease-in-out;
+}

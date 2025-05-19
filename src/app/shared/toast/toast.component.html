@@ -1,0 +1,27 @@
+<section class="lista-toast">
+  <div
+    *ngFor="let toast of lista_toasts; let i = index"
+    class="toast"
+    [ngClass]="toast.tipo"
+  >
+    <div class="body-toast">
+      <span
+        class="fa {{ toast.icone }}"
+        *ngIf="toast.icone; else icone_automatico"
+      ></span>
+      <ng-template #icone_automatico>
+        <ng-switch [ngSwitch]="toast.tipo">
+          <span class="fa fa-check-circle" *ngSwitchCase="'success'"></span>
+          <span class="fa fa-circle-exclamation" *ngSwitchCase="'error'"></span>
+          <span
+            class="fa fa-triangle-exclamation"
+            *ngSwitchCase="'warning'"
+          ></span>
+          <span class="fa fa-info" *ngSwitchCase="'info'"></span>
+        </ng-switch>
+      </ng-template>
+      <p>{{ toast.mensagem }}</p>
+    </div>
+    <i class="fa fa-close" (click)="removeToast(i)"></i>
+  </div>
+</section>

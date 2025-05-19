@@ -1,0 +1,34 @@
+form {
+  display: grid;
+  grid-gap: 1em;
+}
+
+label {
+  color: #606060;
+  font-size: 1em;
+}
+
+.possui-pets {
+  max-width: 280px;
+  display: flex;
+  gap: 0.5em;
+  flex-direction: column;
+}
+
+.input-archive {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.input-archive span{
+  color: #606060;
+  font-weight: 600;
+  font-size: 1em;
+}
+
+.input-archive span i{
+  color: #808080;
+  font-size: 0.8em;
+}

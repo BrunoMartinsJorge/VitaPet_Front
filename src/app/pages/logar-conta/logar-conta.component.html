@@ -1,0 +1,43 @@
+<main>
+  <section class="logo-imagem">
+    <div class="logo"></div>
+    <p>Segurança e bem-estar para o seu Pet</p>
+  </section>
+  <section class="form-login">
+    <div class="texto-recepcao">
+      <h1>Sejá Bem-Vindo</h1>
+      <p>Para ter acesso aos seus dados da clínica, efetue o login abaixo</p>
+    </div>
+    <form [formGroup]="formulario">
+      <input-personalizado
+        label="Email"
+        placeholder="Coloque seu email..."
+        type="email"
+        formControlName="email"
+        icone="fa-envelope"
+        iconPosition="right"
+        [style]="'height: 50px;'"
+      ></input-personalizado>
+
+      <div>
+        <input-personalizado
+          label="Senha"
+          placeholder="Coloque sua senha..."
+          type="password"
+          formControlName="senha"
+          iconPosition="right"
+          icone="fa-eye-slash"
+          [style]="'height: 50px;'"
+        ></input-personalizado>
+        <span class="esqueceu-senha">Esqueceu sua senha?</span>
+      </div>
+      <app-botao
+        label="Entrar"
+        [style]="'width: 100%; border-radius: 0px'"
+        [disabilitado]="formulario.invalid"
+        categoria="secundario"
+        (click)="logarNaConta()"
+      ></app-botao>
+    </form>
+  </section>
+</main>

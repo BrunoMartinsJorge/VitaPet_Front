@@ -1,0 +1,34 @@
+<section
+  (mouseenter)="abrirSidebar()"
+  (mouseleave)="fecharSidebar()"
+  class="sidebar"
+  [ngClass]="{ 'sidebar-ativa': sidebarEstaAberta }"
+>
+  <div class="cabecalho-sidebar">
+    <div class="logo">
+      <div class="logo-img"></div>
+    </div>
+    <h2>VitaPet</h2>
+  </div>
+  <div class="links-sidebar">
+    <ul>
+      <li
+        class="link"
+        *ngFor="let link of listaLinks"
+        [ngClass]="{ 'link-ativo': linkAtivo == link.label }"
+      >
+        <a routerLink="{{link.link}}" (click)="linkAtivado(link)"
+          ><i class="fa-solid {{ link.icon }}"></i
+          ><span>{{ link.label }}</span></a
+        >
+      </li>
+    </ul>
+  </div>
+  <div class="footer-sidebar">
+    <div class="img-conta"></div>
+    <div class="info-conta">
+        <span class="nome-usuario">Ednaldo Pereira</span>
+        <span class="cargo-usuario">ADM SUPREMO</span>
+      </div>
+  </div>
+</section>

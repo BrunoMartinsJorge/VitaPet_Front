@@ -1,0 +1,99 @@
+<form [formGroup]="formulario">
+  <div class="input-group">
+    <input-personalizado
+      style="width: 100%"
+      formControlName="nome"
+      label="Nome"
+      placeholder="Nome do cliente..."
+      [erroCampo]="formulario.get('nome')?.errors?.['somenteEspacos'] && formulario.get('nome')?.touched"
+    />
+    <span
+      class="msg-erro"
+      *ngIf="formulario.get('nome')?.errors?.['somenteEspacos'] && formulario.get('nome')?.touched"
+    >
+      Não é permitido apenas espaços
+    </span>
+  </div>
+  <div class="input-group">
+    <input-personalizado
+      style="width: 100%"
+      formControlName="cpf"
+      label="CPF"
+      placeholder="CPF do cliente.."
+      mask="XXX.XXX.XXX-XX"
+      [erroCampo]="formulario.get('cpf')?.errors?.['cpfInvalido'] && formulario.get('cpf')?.touched"
+    />
+    <span
+      class="msg-erro"
+      *ngIf="formulario.get('cpf')?.errors?.['cpfInvalido'] && formulario.get('cpf')?.touched"
+    >
+      CPF inválido!
+    </span>
+  </div>
+  <div class="input-group">
+    <input-personalizado
+      style="width: 100%"
+      formControlName="telefone"
+      label="Telefone"
+      placeholder="Telefone do cliente.."
+      mask="(XX) XXXXX-XXXX"
+    />
+  </div>
+  <div class="input-group">
+    <input-personalizado
+      style="width: 100%"
+      formControlName="email"
+      label="Email"
+      placeholder="Email do cliente.."
+      type="email"
+      [erroCampo]="formulario.get('email')?.errors?.['somenteEspacos'] && formulario.get('email')?.touched || formulario.get('email')?.errors?.['emailInvalido'] && formulario.get('email')?.touched "
+    />
+    <span
+      class="msg-erro"
+      *ngIf="formulario.get('email')?.errors?.['somenteEspacos'] && formulario.get('email')?.touched || formulario.get('email')?.errors?.['emailInvalido'] && formulario.get('email')?.touched"
+    >
+      Email inválido!
+    </span>
+  </div>
+  <div class="input-group">
+    <input-personalizado
+      style="width: 100%"
+      formControlName="dataNascimento"
+      label="Data de nascimento"
+      type="date"
+      placeholder="DD/MM/AAAA."
+    />
+    <div
+      class="msg-erro"
+      *ngIf="formulario.get('dataNascimento')?.errors?.['dataFutura'] && formulario.get('dataNascimento')?.touched"
+    >
+      A data de nascimento não pode ser no futuro.
+    </div>
+    <div
+      class="msg-erro"
+      *ngIf="formulario.get('dataNascimento')?.errors?.['idadeMuitoAlta'] && formulario.get('dataNascimento')?.touched"
+    >
+      A idade não pode ultrapassar 120 anos.
+    </div>
+    <div
+      class="msg-erro"
+      *ngIf="formulario.get('dataNascimento')?.errors?.['idadeMinima'] && formulario.get('dataNascimento')?.touched"
+    >
+      A idade não pode ser menor que 18 anos.
+    </div>
+  </div>
+  <div class="input-group">
+    <dropdown-personalizado
+      formControlName="genero"
+      [style]="'width: 100%;'"
+      [dropdownAberto]="false"
+      [opcaoSelecionada]="opSelec"
+      label="Gênero"
+      (opcaoSelecionadaEvent)="opSelec = $event"
+      [opcoes]="[
+        { label: 'Masculino', valor: 'Masculino' },
+        { label: 'Feminino', valor: 'Feminino' }
+      ]"
+    ></dropdown-personalizado>
+  </div>
+</form>
