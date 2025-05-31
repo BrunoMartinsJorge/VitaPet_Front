@@ -1,0 +1,376 @@
+<main>
+  <section class="tabela-section">
+    <div class="info-tela">
+      <div class="descricao-titulo">
+        <h1 class="titulo-tela">Clientes Cadastrados</h1>
+        <p class="descricao-tela">Gerenciar os clientes da clínica</p>
+      </div>
+      <div class="qtd-clientes">{{ clientes.length }} Clientes Cadastrados</div>
+    </div>
+    <div class="opcoes-filtro">
+      <div class="input-busca">
+        <i class="fa fa-magnifying-glass"></i>
+        <input
+          type="text"
+          placeholder="Buscar por nome, email..."
+          [value]="busca"
+          (input)="atualizarBusca($event)"
+        />
+      </div>
+      <div class="dropdown" [ngClass]="{ 'dropdown-aberto': dropDownAberto }">
+        <button class="dropdown-button" (click)="alterarDropDown()">
+          <i class="fa-solid fa-filter"></i>
+          {{ opcaoDeFiltro != "" ? opcaoDeFiltro : "Todos" }}
+          <i class="fa-solid fa-chevron-down"></i>
+        </button>
+        <div class="dropdown-content">
+          <a (click)="filtrarPor('Masculino')">Masculino</a>
+          <a (click)="filtrarPor('Feminino')">Feminino</a>
+          <a (click)="filtrarPor('')" *ngIf="opcaoDeFiltro != ''">Todos</a>
+        </div>
+      </div>
+      <button class="cadastrar-cliente" (click)="abrirDialogCadastroCliente()">
+        Cadastrar Cliente<i class="fa-solid fa-plus"></i>
+      </button>
+    </div>
+    <div class="tabela-container" *ngIf="!carregando_tabela; else carregando">
+      <div class="linha-header">
+        <div>Nome</div>
+        <div>Email</div>
+        <div>Gênero</div>
+        <div>Telefone</div>
+        <div class="ordenar">
+          <span
+            ><i class="fa fa-arrow-up" (click)="ordenarIdade('maior')"></i
+            ><i
+              class="fa fa-arrow-down"
+              (click)="ordenarIdade('menor')"
+            ></i></span
+          >Idade
+        </div>
+        <div>Ações</div>
+      </div>
+      <p class="linha lista-vazia" *ngIf="clientes.length == 0">
+        Lista de clientes vazia!
+      </p>
+      <div class="linha" *ngFor="let cliente of clientesPaginados">
+        <div class="col-nome">
+          <span
+            class="avatar"
+            *ngIf="!cliente.foto_pessoa"
+            [ngStyle]="{
+              'background-color':
+                cliente.genero === 'Masculino' ? '#b3e5fc' : '#f8bbd0'
+            }"
+          ></span>
+          <img
+            [src]="cliente.foto_pessoa"
+            width="50px"
+            height="50px"
+            class="imagem-pessoa"
+            *ngIf="cliente.foto_pessoa"
+          />
+          <span>{{ cliente.nome_cliente }}</span>
+        </div>
+        <div class="email-row">
+          <i class="fa-solid fa-envelope"></i>{{ cliente.email }}
+        </div>
+        <div>
+          <span class="genero" [ngClass]="cliente.genero">{{
+            cliente.genero
+          }}</span>
+        </div>
+        <div>
+          {{ cliente.telefone | formatoTelefone }}
+        </div>
+        <div>{{ cliente.idade }} anos</div>
+        <div>
+          <button class="acao" (click)="abrirDialogInfoCliente(cliente)">
+            <i class="fa-solid fa-chevron-right"></i>
+          </button>
+        </div>
+      </div>
+      <div class="footer-tabela">
+        <p>
+          Mostrando a {{ paginaAtual }}ª página de
+          {{ quantidadePaginas }} páginas.
+        </p>
+        <div class="paginacao">
+          <span (click)="paginaAnterior()"
+            ><i class="fa-solid fa-chevron-left"></i
+            ><strong>Anterior</strong></span
+          >-
+          <span (click)="proximaPagina()"
+            ><strong>Próximo</strong><i class="fa-solid fa-chevron-right"></i
+          ></span>
+        </div>
+      </div>
+    </div>
+    <ng-template #carregando>
+      <app-load></app-load>
+    </ng-template>
+  </section>
+  <dialog-personalizado
+    [visibilidade]="dialogCadastroVisivel"
+    (fecharDialogEvent)="fecharDialog()"
+    [iconVisibilidade]="true"
+    [exibirFooter]="false"
+    headerDoDialog="Cadastrar Cliente"
+    subtituloDoDialog="Cadastrar um novo cliente na clínica"
+    [style]="'max-width: 600px; width: 100%;'"
+  >
+    <section class="form-cadastro">
+      <app-steps [steps]="steps"></app-steps>
+      <app-formulario-info-pessoais
+        *ngIf="formularioCadastroCliente"
+        [hidden]="etapaFormulario !== steps[0].label"
+        [formulario]="formularioCadastroCliente.formularioInfoPessoais"
+      ></app-formulario-info-pessoais>
+      <app-formulario-localizacao
+        [formulario]="formularioCadastroCliente.formularioLocalizacao"
+        [hidden]="etapaFormulario !== steps[1].label"
+      ></app-formulario-localizacao>
+      <app-formulario-complementares
+        [formulario]="formularioCadastroCliente.formularioComplementares"
+        [hidden]="etapaFormulario !== steps[2].label"
+      ></app-formulario-complementares>
+    </section>
+    <div
+      style="
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1em;
+        margin: 1em auto;
+      "
+    >
+      <app-botao
+        *ngIf="etapaFormulario != steps[0].label && steps.length > 0"
+        label="Voltar"
+        [disabilitado]="false"
+        [icone]="'fa-chevron-left'"
+        categoria="secundario"
+        (click)="voltarParaEtapaAnterior()"
+        style="width: 90%"
+      ></app-botao>
+      <ng-container *ngIf="etapaFormulario != steps[steps.length - 1].label">
+        <app-botao
+          label="Avançar"
+          [disabilitado]="
+            formularioCadastroCliente.formularioInfoPessoais.invalid
+          "
+          [icone]="'fa-chevron-right'"
+          iconePosi="right"
+          (click)="avancarParaProximaEtapa()"
+          style="width: 90%"
+          *ngIf="etapaFormulario == steps[0].label"
+        ></app-botao>
+        <app-botao
+          label="Avançar"
+          [disabilitado]="
+            formularioCadastroCliente.formularioLocalizacao.invalid
+          "
+          [icone]="'fa-chevron-right'"
+          iconePosi="right"
+          (click)="avancarParaProximaEtapa()"
+          style="width: 90%"
+          *ngIf="etapaFormulario == steps[1].label"
+        ></app-botao>
+        <app-botao
+          label="Avançar"
+          [disabilitado]="
+            formularioCadastroCliente.formularioComplementares.invalid
+          "
+          [icone]="'fa-chevron-right'"
+          iconePosi="right"
+          (click)="avancarParaProximaEtapa()"
+          style="width: 90%"
+          *ngIf="etapaFormulario == steps[2].label"
+        ></app-botao>
+      </ng-container>
+      <app-botao
+        label="Cadastrar Cliente"
+        [disabilitado]="
+          formularioCadastroCliente.formularioComplementares.invalid ||
+          formularioCadastroCliente.formularioLocalizacao.invalid ||
+          formularioCadastroCliente.formularioInfoPessoais.invalid
+        "
+        [icone]="'fa-person'"
+        iconePosi="left"
+        (click)="cadastrarCliente()"
+        style="width: 90%"
+        *ngIf="etapaFormulario == steps[steps.length - 1].label"
+      ></app-botao>
+    </div>
+  </dialog-personalizado>
+  <dialog-personalizado
+    [visibilidade]="visibilidadeClienteSelecionado"
+    [style]="'max-width: 800px; width: 100%;'"
+    (fecharDialogEvent)="fecharDialogInfoCliente()"
+    headerDoDialog="Informações do cliente"
+    subtituloDoDialog="{{ clienteSelecionado?.nome_cliente }}"
+  >
+    <div style="margin: 1em 0">
+      <app-steps
+        [clicavel]="true"
+        [steps]="opcoesStepInfoCliente"
+        (selecionarOpcao)="selecionarOpcao($event)"
+      ></app-steps>
+    </div>
+    <section
+      style="display: flex; flex-direction: column; gap: 1em"
+      *ngIf="opcaoInfoClienteSelecionado === 'Informações'"
+    >
+      <div class="avatar-cliente">
+        <img
+          [src]="clienteSelecionado?.foto_pessoa"
+          alt="Foto do cliente selecionado - {{
+            clienteSelecionado?.nome_cliente
+          }}"
+          *ngIf="clienteSelecionado?.foto_pessoa != null"
+        />
+        <i
+          style="
+            font-size: 2.5em;
+            color: #333;
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+            border: 3px solid #0c6369;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          "
+          class="fa fa-user-slash"
+          *ngIf="clienteSelecionado?.foto_pessoa == null"
+        ></i>
+        <div class="info-basicas">
+          <h3>{{ clienteSelecionado?.nome_cliente }}</h3>
+          <span class="id-cliente-genero"
+            ><i>ID: {{ clienteSelecionado?.id }}</i
+            ><i class="genero-cliente">{{
+              clienteSelecionado?.genero
+            }}</i></span
+          >
+          <span class="id-cliente"></span>
+          <span class="id-cliente">{{ clienteSelecionado?.cpf_cliente }}</span>
+        </div>
+      </div>
+      <div class="dados-contato">
+        <h4>Informações de contato</h4>
+        <span>
+          <i class="fa fas fa-phone"></i>
+          {{ clienteSelecionado?.telefone | formatoTelefone }}
+        </span>
+        <span>
+          <i class="fa far fa-envelope"></i>
+          {{ clienteSelecionado?.email }}
+        </span>
+      </div>
+      <div class="dados-endereco">
+        <h4>
+          <i class="fa fa-location-arrow"></i>
+          Informações de contato
+        </h4>
+        <span> Bairro - {{ clienteSelecionado?.bairro }} </span>
+        <span> Rua - {{ clienteSelecionado?.rua }} </span>
+        <span> Numero - {{ clienteSelecionado?.numero }} </span>
+        <span *ngIf="clienteSelecionado?.complemento != null">
+          Complemento - {{ clienteSelecionado?.complemento }}
+        </span>
+      </div>
+      <div class="dados-pessoais">
+        <h4>Informações de pessoais</h4>
+        <span>
+          <i class="fa fa-birthday-cake"></i>
+          Data de nascimento -
+          {{ clienteSelecionado?.data_nascimento | date : "dd/MM/yyyy" }}
+        </span>
+        <span>
+          <i class="fa fa-person"></i>
+          Idade - {{ clienteSelecionado?.idade }}
+        </span>
+        <span>
+          <i class="fa fas fa-user-clock"></i>
+          Cadastrado em -
+          {{
+            clienteSelecionado?.data_hora_cadastro | date : "dd/MM/yyyy HH:mm"
+          }}
+        </span>
+      </div>
+      <div style="display: flex; align-items: center; justify-content: center; gap: 1em;">
+        <app-botao
+          label="Excluir Cliente"
+          icone="fa-trash"
+          categoria="perigo"
+          (click)="deletarPet(clienteSelecionado!.id)"
+        ></app-botao>
+        <app-botao
+          label="Editar Cliente"
+          icone="fa-pencil"
+          categoria="secundario"
+        ></app-botao>
+      </div>
+    </section>
+    <section
+      *ngIf="opcaoInfoClienteSelecionado !== 'Informações'"
+      class="pets-cliente-selecionado"
+    >
+      <ng-container *ngIf="pets_cliente_selecionado.length == 0">
+        <span>Esse cliente não possui pets cadastrados!</span>
+      </ng-container>
+      <div class="qtd-pets-cliente" *ngIf="pets_cliente_selecionado.length > 0">
+        Pets cadastrados ({{ pets_cliente_selecionado.length }})
+      </div>
+      <div class="lista-pets" *ngIf="pets_cliente_selecionado.length > 0">
+        <div class="pet-element" *ngFor="let pet of pets_cliente_selecionado">
+          <div class="header-pet">
+            <div class="info-pet">
+              <h3>{{ pet.nome }}</h3>
+              <span
+                >{{ pet.raca_animal }}
+                <hr />
+                {{ pet.idade }} anos.</span
+              >
+            </div>
+            <span
+              ><i
+                class="fa fa-pencil-alt"
+                (click)="abrirDialogEditarPetCliente(pet)"
+              ></i
+              ><i class="fa fa-trash-alt" (click)="excluirPet(pet.id)"></i
+            ></span>
+          </div>
+          <div class="body-pet">
+            <span
+              ><i class="fa fa-calendar"></i>Cadastrado em
+              {{ pet.data_cadastro }}</span
+            >
+            <span><i class="fa-solid fa-scissors"></i>Castrado</span>
+            <p>
+              <span
+                ><i class="fa-regular fa-heart"></i>Problemas de saúde:</span
+              >
+              {{ pet.problemas_saude }}
+            </p>
+          </div>
+          <div class="footer-pet">
+            <span>Tipo de animal</span>
+            <strong>{{ pet.tipo_animal | letraFormat }}</strong>
+          </div>
+        </div>
+      </div>
+    </section>
+  </dialog-personalizado>
+  <dialog-personalizado
+    [visibilidade]="visibilidadeDialogAlterarPetCliente"
+    [style]="'max-width: 600px; width: 100%;'"
+    (fecharDialogEvent)="fecharDialogEditarPetCliente()"
+    headerDoDialog="Editar Pet"
+    subtituloDoDialog="{{ petClienteSelecionado?.nome }}"
+  >
+    <app-formulario-editar-pet
+      [dados_pet]="petClienteSelecionado"
+    ></app-formulario-editar-pet>
+  </dialog-personalizado>
+</main>

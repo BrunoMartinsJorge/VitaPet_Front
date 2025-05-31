@@ -1,0 +1,46 @@
+      <form [formGroup]="formulario">
+        <div class="buscar-cep">
+          <input-personalizado
+            style="width: auto"
+            formControlName="cep"
+            label="CEP"
+            placeholder="CEP do cliente..."
+            mask="XXXXX-XXX"
+          />
+          <app-botao
+            icone="fa-magnifying-glass"
+            [style]="'height: 33px'"
+            categoria="secundario"
+            [disabilitado]="!formulario.get('cep')?.valid"
+            (click)="buscarCep(formulario.get('cep')?.value)"
+          >
+          </app-botao>
+        </div>
+        <input-personalizado
+          id="bairro"
+          style="width: 100%"
+          formControlName="bairro"
+          label="Bairro"
+          placeholder="Bairro do cliente.."
+        />
+        <input-personalizado
+          style="width: 100%"
+          formControlName="rua"
+          label="Rua"
+          placeholder="Rua do cliente.."
+        />
+        <input-personalizado
+          style="width: 100%"
+          formControlName="numero"
+          label="Número"
+          type="text"
+          placeholder="Número/Complemento de residência do cliente.."
+        />
+        <input-personalizado
+          style="width: 100%"
+          formControlName="complemento"
+          label="Complemento"
+          type="text"
+          placeholder="Complemento de residência do cliente.."
+        />
+      </form>

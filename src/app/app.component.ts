@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { SidebarComponent } from "./shared/sidebar/sidebar.component";
+import { SidebarComponent } from "./shared/components/sidebar/sidebar.component";
 import { CommonModule } from '@angular/common';
-import { ToastComponent } from "./shared/toast/toast.component";
+import { ToastComponent } from "./shared/components/toast/toast.component";
 
 @Component({
   selector: 'app-root',
@@ -13,8 +13,8 @@ import { ToastComponent } from "./shared/toast/toast.component";
 })
 export class AppComponent {
   title = 'Componentes';
-
   isLogedIn: boolean = false;
+
   constructor(){
 
   }

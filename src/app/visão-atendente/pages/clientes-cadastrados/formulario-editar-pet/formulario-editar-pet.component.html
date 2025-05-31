@@ -1,0 +1,39 @@
+<form>
+  <div class="inputs-normais">
+    <input-personalizado
+      [style]="'width: 260px'"
+      label="Nome do pet"
+      placeholder="Insira o novo nome do pet..."
+      [value]="dados_pet?.nome"
+    ></input-personalizado>
+    <input-personalizado
+      [style]="'width: 260px'"
+      label="Problemas de saúde do pet"
+      placeholder="Insira o novo problema de saúde do pet..."
+      [value]="dados_pet?.problemas_saude"
+    ></input-personalizado>
+    <input-personalizado
+      [style]="'width: 260px'"
+      label="Gênero do pet"
+      placeholder="Insira o gênero nome do pet..."
+      [value]="dados_pet?.genero"
+    ></input-personalizado>
+    <input-personalizado
+      label="Pet castrado?"
+      placeholder="O pet esstá castrado?..."
+      [value]="dados_pet?.castrado"
+    ></input-personalizado>
+    <input-personalizado
+      label="Raça do pet"
+      placeholder="Insira a nova raça do pet..."
+      [value]="dados_pet?.raca_animal"
+    ></input-personalizado>
+  </div>
+  <app-botao
+    label="Editar Pet"
+    iconePosi="right"
+    [style]="'width: 100%'"
+    [icone]="'fa-paw'"
+    (click)="editarDadosPet()"
+  ></app-botao>
+</form>

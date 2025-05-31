@@ -1,0 +1,43 @@
+<section class="lista-steps">
+  <div
+    class="step-active"
+    [ngStyle]="{
+      left:
+        'calc(((100% - 0.5em) / ' + steps.length + ') * ' + activeIndex + ')',
+      width: 'calc((100% - 0.5em) / ' + steps.length + ')'
+    }"
+  ></div>
+  <ng-container *ngIf="!clicavel">
+    <div
+      class="step-element"
+      *ngFor="let step of steps"
+      [ngClass]="step.active ? 'active' : ''"
+    >
+      <i class="fa {{ step.icon }}"></i>
+      <span class="step-label">{{ step.label }}</span>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="clicavel">
+    <div
+      class="step-element"
+      *ngFor="let step of steps"
+      [ngClass]="step.active ? 'active' : ''"
+    >
+      <div
+        (click)="selecionar(step)"
+        style="
+          width: 100%;
+          cursor: pointer;
+          padding: 0.5em 0.75em;
+          gap: 0.5em;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        "
+      >
+        <i class="fa {{ step.icon }}"></i>
+        <span class="step-label">{{ step.label }}</span>
+      </div>
+    </div>
+  </ng-container>
+</section>

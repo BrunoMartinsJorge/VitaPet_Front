@@ -1,0 +1,38 @@
+form{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  flex-direction: column;
+  grid-gap: 1em;
+}
+
+form .inputs-normais{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  align-items: center;
+  justify-content: center;
+  gap: 1em;
+}
+
+form .tipo-animal span{
+  font-size: 1.2em;
+  color: #333;
+}
+
+form .tipo-animal .opcoes{
+  width: 100%;
+  align-items: center;
+  display: flex;
+  gap: 0.25em;
+  flex-wrap: wrap;
+}
+
+form .tipo-animal .opcoes div{
+  display: flex;
+  flex-wrap: wrap;
+  color: #606060;
+  gap: 0.25em;
+  align-items: center;
+  justify-content: center;
+}
